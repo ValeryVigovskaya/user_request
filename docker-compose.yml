@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: post-backend
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    image: valerykhalitova/compose-post-backend:latest
+    ports:
+     - 4000:3000
+  frontend:
+    container_name: post-frontend
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    image: valerykhalitova/compose-post-frontend:latest
+    ports:
+     - 3005:80

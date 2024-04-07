@@ -1,0 +1,38 @@
+.container {
+  max-width: 100%;
+  display: flex;
+  min-height: 500px;
+  flex-direction: column;
+  padding: 47px 28px 41px;
+  justify-content: space-between;
+}
+
+.container__list {
+  font-size: 25px;
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container__item {
+  font-weight: 600;
+}
+
+.btn {
+  font-size: 14px;
+  width: 128px;
+  height: 38px;
+  text-align: center;
+  font-weight: 550;
+  background-color: #0a8fdc;
+  color: #fff;
+  border: none;
+  border-radius: 7.41px;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.12))
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.14))
+    drop-shadow(0 3px 1px rgba(0, 0, 0, 0.2));
+  align-self: center;
+  cursor: pointer;
+}
