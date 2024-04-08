@@ -27,7 +27,9 @@ Nest.js и TypeScript, React, Redux, Docker, Docker-compose
    `git clone https://github.com/ValeryVigovskaya/user_requests_project.git`
 5. Заходим в появившуюся папку:
    `cd user_requests_project`
-6. Запустить проект можно командой:
+6. Собрать контейнеры с помощью команды
+   `docker-compose up --build`
+7. Запустить проект можно командой:
    `docker-compose up`
    после этого на http://localhost:3005/ будет отображен проект
-7.  Через Postman можно проверить все существующие роуты
+8.  Через Postman можно проверить все существующие роуты
