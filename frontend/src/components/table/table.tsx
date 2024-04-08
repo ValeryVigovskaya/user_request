@@ -3,14 +3,14 @@ import styles from "./table.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services";
 import { getDataOnPage } from "../../services/actions/request-actions";
-import { IRequest } from "../../utils/types";
+import { FilterName, IFilterName, IRequest } from "../../utils/types";
 import { formattedDate } from "../../utils/functions";
 import { Loader } from "../loader/loader";
 
 export const Table: FC = () => {
   const { objectsOnPage, objectsOnPageRequest, objectsOnPageFailed } =
     useAppSelector((state) => state.requests);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<IFilterName>({
     date: "",
     author: "",
     type: "",
@@ -41,12 +41,52 @@ export const Table: FC = () => {
     }));
   };
 
-  const filteredObjects = objectsOnPage.filter((item) => {
+  const foundFilteredName = (item: string) => {
+    switch (
+      item === FilterName.Type ||
+      item === FilterName.Username ||
+      item === FilterName.Date ||
+      item === FilterName.Status
+    ) {
+      case item === FilterName.Type:
+        return "type";
+      case item === FilterName.Username:
+        return "author";
+      case item === FilterName.Date:
+        return "date";
+      case item === FilterName.Status:
+        return "status";
+      default:
+        return "";
+    }
+  };
+
+  const foundFilteredValue = (item: string, filterName: IFilterName) => {
+    switch (
+      item === FilterName.Type ||
+      item === FilterName.Username ||
+      item === FilterName.Date ||
+      item === FilterName.Status
+    ) {
+      case item === FilterName.Type:
+        return filterName.type;
+      case item === FilterName.Username:
+        return filterName.author;
+      case item === FilterName.Date:
+        return filterName.date;
+      case item === FilterName.Status:
+        return filterName.status;
+      default:
+        return undefined;
+    }
+  };
+
+  const filteredObjects = objectsOnPage.filter((item: IRequest) => {
     return (
       formattedDate(item.createdAt).includes(filters.date) &&
-      item.username.includes(filters.author) &&
-      item.type.includes(filters.type) &&
-      item.status.includes(filters.status)
+      item.username.toLowerCase().includes(filters.author) &&
+      item.type.toLowerCase().includes(filters.type) &&
+      item.status.toLowerCase().includes(filters.status)
     );
   });
 
@@ -83,47 +123,31 @@ export const Table: FC = () => {
               {headItems.map((item) => (
                 <th key={item} className={styles.head__item}>
                   {item}
-                  {(item === "Тип запроса" ||
-                    item === "Пользователь" ||
-                    item === "Дата" ||
-                    item === "Статус") && (
+                  {(item === FilterName.Type ||
+                    item === FilterName.Username ||
+                    item === FilterName.Date ||
+                    item === FilterName.Status) && (
                     <input
                       type="text"
                       className={styles.head__input}
-                      value={
-                        item === "Тип запроса"
-                          ? filters.type
-                          : item === "Пользователь"
-                          ? filters.author
-                          : item === "Дата"
-                          ? filters.date
-                          : item === "Статус"
-                          ? filters.status
-                          : undefined
-                      }
+                      value={foundFilteredValue(item, filters)}
                       onChange={(e) =>
                         handleFilterChange(
-                          item === "Тип запроса"
-                            ? "type"
-                            : item === "Пользователь"
-                            ? "author"
-                            : item === "Дата"
-                            ? "date"
-                            : item === "Статус"
-                            ? "status"
-                            : "",
+                          foundFilteredName(item),
                           e.target.value
                         )
                       }
-                      placeholder={item === "Тип запроса"
-                      ? "Фильтр по типу"
-                      : item === "Пользователь"
-                      ? "Фильтр по пользователю"
-                      : item === "Дата"
-                      ? "Фильтр по дате"
-                      : item === "Статус"
-                      ? "Фильтр по статусу"
-                      : ""}
+                      placeholder={
+                        item === FilterName.Type 
+                          ? "Фильтр по типу"
+                          : item === FilterName.Username
+                          ? "Фильтр по пользователю"
+                          : item === FilterName.Date
+                          ? "Фильтр по дате"
+                          : item === FilterName.Status
+                          ? "Фильтр по статусу"
+                          : ""
+                      }
                     />
                   )}
                 </th>

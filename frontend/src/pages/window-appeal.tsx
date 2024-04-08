@@ -2,22 +2,29 @@ import { useNavigate } from "react-router-dom";
 import styles from "./window-appeal.module.css";
 import { useAppDispatch, useAppSelector } from "../services";
 import addImg from "../images/plus-svgrepo-com.svg";
-import { FC, FormEvent } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useState,
+} from "react";
 import {
   closeNewModalRequest,
   postRequestFetch,
 } from "../services/actions/new-request-modal-actions";
 import { useForm } from "../hooks/useForm";
-import { getDataOnPage } from "../services/actions/request-actions";
+import { AddImgPrew } from "../components/addImgPrew/addImgPrew";
 
 export const WindowAppeal: FC = () => {
-  const { values, handleChange } = useForm({
+  const { values, handleChange, setValues } = useForm({
     username: "",
     type: "Ошибка",
     caption: "",
-    img: null,
+    img: [] as string[],
   });
+  const [arrayImg, setStateArrayImg] = useState<string[]>([]);
   const { page } = useAppSelector((state) => state.pagination);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -31,6 +38,22 @@ export const WindowAppeal: FC = () => {
     dispatch(postRequestFetch(values, page));
     //обновляем состояние в таблице
     onClose();
+  };
+
+  const handlerAddImg = (
+    e: ChangeEvent<HTMLInputElement> | undefined,
+  ) => {
+    const files = e?.target.files as FileList;
+    //добавляем файлы из события
+    let filesOnTarget = files;
+    if (filesOnTarget) {
+      const arrayImg: File[] = Array.from(filesOnTarget);
+      const stringArray: string[] = arrayImg.map(
+        (file) => (URL.createObjectURL(file))
+      );
+      setStateArrayImg((prevArray) => [...prevArray, ...stringArray]);
+      setValues({ ...values, img: [...values.img, ...stringArray]});
+    }
   };
 
   return (
@@ -101,9 +124,10 @@ export const WindowAppeal: FC = () => {
           name="img"
           accept="image/*"
           style={{ display: "none" }}
+          onChange={(e) => handlerAddImg(e)}
           multiple={false}
         />
-        {/* <img alt="Preview" ref={uploadedImage}/> */}
+        <AddImgPrew arrayImg={arrayImg}/>
         <div className={styles["form__btn-container"]}>
           <button
             type="submit"

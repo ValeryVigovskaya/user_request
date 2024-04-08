@@ -4,6 +4,19 @@ export type TTypes =
   | "Улучшение"
   | "Документация";
 
+export enum FilterName {
+   Type = "Тип запроса",
+   Username = "Пользователь",
+   Date = "Дата",
+   Status = "Статус",
+}
+
+export interface IFilterName {
+  type: string,
+  author: string,
+  date: string,
+  status: string,
+}
 export interface IRequest {
   id: string;
   createdAt: Date;
@@ -12,14 +25,14 @@ export interface IRequest {
   caption: string;
   username: string;
   status: string;
-  img?: File | null;
+  img?: string[];
 }
 
 export interface IForm {
   username: string;
   type: string;
   caption: string;
-  img?: File | null;
+  img?: string[];
 }
 
 export type TResponseBody<TDataKey extends string = "", TDataType = {}> = {

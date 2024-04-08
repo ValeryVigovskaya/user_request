@@ -23,5 +23,5 @@ export class CreateRequestDto {
 
   @IsUrl()
   @IsOptional()
-  img: string;
+  img: string[];
 }

@@ -28,6 +28,10 @@ export const RequestDetails: FC = () => {
 
   const orderNumber = id;
 
+  const countImg = () => {
+    return request?.img?.length;
+  }
+
   useEffect(() => {
     dispatch(getRequestFromApi(orderNumber));
   }, [dispatch, orderNumber]);
@@ -63,6 +67,10 @@ export const RequestDetails: FC = () => {
           <li>
             <span className={styles.container__item}>Статус:</span>{" "}
             {request?.status}
+          </li>
+          <li>
+            <span className={styles.container__item}>Количество вложенных файлов :</span>{" "}
+            {countImg()}
           </li>
         </ul>
         <button

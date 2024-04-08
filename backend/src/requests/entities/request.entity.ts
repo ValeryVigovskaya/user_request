@@ -36,7 +36,7 @@ export class Request {
   @Column('varchar')
   @IsUrl()
   @IsOptional()
-  img: string;
+  img: string[];
 
   @Column('varchar', { default: 'В очереди' })
   status: TStatuses;
