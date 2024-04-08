@@ -1,6 +1,6 @@
 import { IForm, IRequest } from "../utils/types";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "http://localhost:3001";
 
 const request = <T>(
   endpoint: RequestInfo | URL,

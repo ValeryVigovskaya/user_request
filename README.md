@@ -33,3 +33,8 @@ Nest.js и TypeScript, React, Redux, Docker, Docker-compose
    `docker-compose up`
    после этого на http://localhost:3005/ будет отображен проект
 8.  Через Postman можно проверить все существующие роуты
+9.  Запустить проект локально можно командами:
+    `npm i` - в папке фронтенда и бекенда
+    далее:
+    `npm run start:dev` - для бекенда
+    `npm start` - для фронтенда
